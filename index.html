@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikhil Sharma - Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Cool Neutral Professional -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive portfolio, moving beyond a linear resume. The structure includes a sticky navigation for easy access, an interactive timeline for experience, a skills dashboard with a radar chart for a quick visual summary and filterable categories for detailed exploration, a project showcase using cards, and a combined achievements section with a bar chart for competitive programming stats. This dashboard-like approach allows recruiters to quickly assess key areas (Skills, Experience) and delve into details as needed, enhancing usability and engagement compared to a static document. -->
+    <!-- Visualization & Content Choices: 
+        - Experience: Report Info -> Job history at Deutsche Bank, Mastercard. Goal -> Show career progression. Viz -> Interactive vertical timeline (HTML/CSS/JS). Interaction -> Clicking an entry reveals details. Justification -> More engaging than a list, allows progressive disclosure of information.
+        - Technical Skills: Report Info -> Lists of languages, backend tech, etc. Goal -> Showcase technical breadth and proficiency. Viz -> 1) Radar Chart (Chart.js) for high-level proficiency areas. 2) Filterable skill lists (HTML/JS). Interaction -> Filter buttons show/hide specific skill sets. Justification -> The radar chart offers a quick visual summary, while filters make the detailed list digestible.
+        - Competitive Programming: Report Info -> Ratings on LeetCode, Codeforces, CodeChef. Goal -> Compare performance on different platforms. Viz -> Bar Chart (Chart.js). Interaction -> Tooltips on hover show exact ratings. Justification -> A bar chart makes comparison more immediate and impactful than plain numbers.
+        - Projects/Achievements: Report Info -> Project descriptions and achievements list. Goal -> Inform and highlight key accomplishments. Viz -> Styled cards and lists (HTML/Tailwind). Interaction -> Hover effects for engagement. Justification -> Clean, organized presentation that draws attention to key accomplishments.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0ea5e9; /* sky-500 */
+            border-bottom-color: #0ea5e9; /* sky-500 */
+        }
+        .section-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .skill-btn {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .skill-btn.active {
+            background-color: #0ea5e9; /* sky-500 */
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-slate-900">Nikhil Sharma</h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#experience" class="nav-link font-medium pb-1">Experience</a>
+                <a href="#skills" class="nav-link font-medium pb-1">Skills</a>
+                <a href="#projects" class="nav-link font-medium pb-1">Projects</a>
+                <a href="#achievements" class="nav-link font-medium pb-1">Achievements</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-slate-700 hover:bg-slate-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#experience" class="block py-2 px-6 text-sm hover:bg-slate-100">Experience</a>
+            <a href="#skills" class="block py-2 px-6 text-sm hover:bg-slate-100">Skills</a>
+            <a href="#projects" class="block py-2 px-6 text-sm hover:bg-slate-100">Projects</a>
+            <a href="#achievements" class="block py-2 px-6 text-sm hover:bg-slate-100">Achievements</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="summary" class="text-center my-12 md:my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Software Engineer</h2>
+            <p class="max-w-3xl mx-auto text-slate-600 leading-relaxed">
+                Highly innovative and impact-driven Software Engineer with 2 years of professional experience building scalable distributed systems and enterprise-grade backend services. Passionate about leveraging deep technical ownership to solve complex global problems and ensure continuous delivery.
+            </p>
+            <div class="mt-8 flex justify-center space-x-6 text-slate-500">
+                <a href="mailto:mikhilsharmash65@gmail.com" class="hover:text-sky-500 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                </a>
+                <a href="https://linkedin.com/in/nikhilsh2003" target="_blank" class="hover:text-sky-500 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-7 6.67h-2.14v5.56h2.14v-5.56zM9.9 8.2a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6zm6.3 2.13c0-1.39-.78-2.43-2.6-2.43a2.4 2.4 0 0 0-2.4 2.43v.3h2.14v-.3c0-.6.33-1.1 1.06-1.1.73 0 1.06.5 1.06 1.1v3.46h2.14v-4.59h-2.4z"></path></svg>
+                </a>
+                <a href="https://github.com/nikhilsh2003" target="_blank" class="hover:text-sky-500 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.577.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"></path></svg>
+                </a>
+            </div>
+        </section>
+
+        <section id="experience" class="py-12 md:py-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900">Professional Experience</h2>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute left-1/2 w-0.5 h-full bg-slate-300 -translate-x-1/2"></div>
+                
+                <div class="relative mt-8">
+                    <div class="flex items-center mb-8">
+                        <div class="w-1/2 pr-8 text-right">
+                            <p class="font-semibold text-sky-600">Jul 2023 – Present</p>
+                        </div>
+                        <div class="w-1/2 pl-8">
+                            <div class="p-6 section-card">
+                                <h3 class="font-bold text-lg text-slate-900">Software Developer</h3>
+                                <p class="text-slate-600 mb-4">Deutsche Bank</p>
+                                <ul class="list-disc list-inside text-sm text-slate-500 space-y-2">
+                                    <li>Spearheaded development of scalable data pipelines with Scala, Spark, and Hadoop.</li>
+                                    <li>Designed and implemented resilient microservices using Java Spring Boot.</li>
+                                    <li>Automated critical workflows with Python (Airflow), reducing manual operations by 40%.</li>
+                                    <li>Led infrastructure transition from OCP3 to OCP4, enhancing uptime.</li>
+                                    <li>Engineered database schemas and automated migrations using Liquibase.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mt-8">
+                    <div class="flex items-center flex-row-reverse mb-8">
+                         <div class="w-1/2 pl-8 text-left">
+                            <p class="font-semibold text-sky-600">May 2022 – Jul 2022</p>
+                        </div>
+                        <div class="w-1/2 pr-8">
+                            <div class="p-6 section-card">
+                                <h3 class="font-bold text-lg text-slate-900">Software Engineering Intern</h3>
+                                <p class="text-slate-600 mb-4">Mastercard</p>
+                                <ul class="list-disc list-inside text-sm text-slate-500 space-y-2">
+                                    <li>Designed a configurable data validator in ASP.NET Core.</li>
+                                    <li>Built a frontend with Razor Pages, JavaScript, and AJAX.</li>
+                                    <li>Delivered a modular system for rapid team onboarding.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="skills" class="py-12 md:py-16 bg-white rounded-2xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Technical Skills</h2>
+                <p class="text-slate-600 mt-2 max-w-2xl mx-auto">A visual overview of my core competencies and a detailed breakdown of the technologies I work with.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6">
+                <div>
+                    <div class="chart-container">
+                        <canvas id="skillsRadarChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex flex-wrap justify-center gap-2 mb-6">
+                        <button class="skill-btn px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300 active" data-filter="all">All</button>
+                        <button class="skill-btn px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300" data-filter="languages">Languages</button>
+                        <button class="skill-btn px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300" data-filter="backend">Backend</button>
+                        <button class="skill-btn px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300" data-filter="distributed">Distributed Systems</button>
+                        <button class="skill-btn px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300" data-filter="devops">DevOps</button>
+                    </div>
+                    <div id="skills-list" class="space-y-4">
+                        <div class="skill-item p-4 bg-slate-50 rounded-lg" data-category="languages">
+                            <h4 class="font-bold text-slate-800">Languages</h4>
+                            <p class="text-slate-600 text-sm">Java, Scala, Python, C++, SQL</p>
+                        </div>
+                        <div class="skill-item p-4 bg-slate-50 rounded-lg" data-category="backend">
+                            <h4 class="font-bold text-slate-800">Backend</h4>
+                            <p class="text-slate-600 text-sm">Spring Boot, Liquibase, Airflow, Node.js, Express.js</p>
+                        </div>
+                        <div class="skill-item p-4 bg-slate-50 rounded-lg" data-category="distributed">
+                            <h4 class="font-bold text-slate-800">Distributed Systems</h4>
+                            <p class="text-slate-600 text-sm">Spark, Hadoop, Kafka (basics), REST APIs</p>
+                        </div>
+                        <div class="skill-item p-4 bg-slate-50 rounded-lg" data-category="devops">
+                            <h4 class="font-bold text-slate-800">DevOps</h4>
+                            <p class="text-slate-600 text-sm">Docker, Kubernetes, Jenkins, OpenShift</p>
+                        </div>
+                         <div class="skill-item p-4 bg-slate-50 rounded-lg" data-category="databases">
+                            <h4 class="font-bold text-slate-800">Databases</h4>
+                            <p class="text-slate-600 text-sm">MongoDB, MongoDB Atlas</p>
+                        </div>
+                        <div class="skill-item p-4 bg-slate-50 rounded-lg" data-category="tools">
+                            <h4 class="font-bold text-slate-800">Tools</h4>
+                            <p class="text-slate-600 text-sm">Git, IntelliJ, Postman, Maven</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-12 md:py-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900">Personal Projects</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="section-card p-6">
+                    <h3 class="text-xl font-bold text-slate-900">Secrets App: Secure Anonymous Platform</h3>
+                    <p class="text-sm text-sky-600 font-medium my-2">Node.js, MongoDB, OAuth, Bcrypt</p>
+                    <p class="text-slate-600">Developed a robust web application for anonymous sharing, featuring secure password encryption and Google authentication for enhanced user access and data privacy.</p>
+                </div>
+                <div class="section-card p-6">
+                    <h3 class="text-xl font-bold text-slate-900">Blog Site: Markdown Blog Engine</h3>
+                    <p class="text-sm text-sky-600 font-medium my-2">Express.js, MongoDB Atlas, JavaScript</p>
+                    <p class="text-slate-600">Built a fast and lightweight blogging platform incorporating efficient slug generation, intuitive Markdown editing capabilities, and a clean routing structure for optimal user experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements" class="py-12 md:py-16">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900">Education & Achievements</h2>
+             <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div class="md:col-span-2 section-card p-6 flex flex-col justify-center">
+                    <h3 class="text-xl font-bold text-slate-900">Education</h3>
+                    <p class="text-lg font-semibold text-slate-700 mt-2">National Institute of Technology, Warangal</p>
+                    <p class="text-slate-600">B.Tech in Electronics and Communication Engineering</p>
+                    <p class="text-slate-500 mt-1">CGPA: 7.7/10</p>
+                    <h3 class="text-xl font-bold text-slate-900 mt-6">Key Achievements</h3>
+                     <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
+                        <li>Global Rank 1 - GFG Interview Series 44</li>
+                        <li>Global Rank 1748 - Google Kickstart 2021</li>
+                        <li>Knight Badge - LeetCode</li>
+                    </ul>
+                </div>
+                <div class="md:col-span-3 section-card p-6">
+                    <h3 class="text-xl font-bold text-center text-slate-900 mb-4">Competitive Programming Ratings</h3>
+                     <div class="chart-container" style="height: 300px; max-height: 350px;">
+                        <canvas id="ratingsBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Nikhil Sharma. All rights reserved.</p>
+            <p class="text-sm mt-2">Built with Tailwind CSS & Chart.js</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const radarCtx = document.getElementById('skillsRadarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Backend Dev', 'Distributed Systems', 'DevOps', 'Databases', 'Problem Solving'],
+                    datasets: [{
+                        label: 'Proficiency',
+                        data: [90, 85, 75, 80, 95],
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                        borderColor: 'rgba(14, 165, 233, 1)',
+                        pointBackgroundColor: 'rgba(14, 165, 233, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(14, 165, 233, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            borderWidth: 2
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                color: '#334155'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: '#64748b',
+                                stepSize: 20
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const skillBtns = document.querySelectorAll('.skill-btn');
+            const skillItems = document.querySelectorAll('.skill-item');
+
+            skillBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.dataset.filter;
+
+                    skillBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    skillItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter || (filter === 'devops' && ['devops', 'tools', 'databases'].includes(item.dataset.category))) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                     if (filter === 'devops') {
+                        document.querySelector('.skill-item[data-category="tools"]').style.display = 'block';
+                        document.querySelector('.skill-item[data-category="databases"]').style.display = 'block';
+                    }
+                });
+            });
+            document.querySelector('.skill-btn[data-filter="all"]').click();
+
+
+            const barCtx = document.getElementById('ratingsBarChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['LeetCode', 'Codeforces', 'CodeChef'],
+                    datasets: [{
+                        label: 'Rating',
+                        data: [1904, 1418, 1808],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(239, 68, 68, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(239, 68, 68, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                         y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 60) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
