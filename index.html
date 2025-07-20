@@ -465,7 +465,7 @@ Please format the questions as a numbered list.`;
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                     const payload = { contents: chatHistory };
                     const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const apiUrl = `https://4fdk4gm1m0.execute-api.eu-west-2.amazonaws.com/default/my-secure-java-proxy/api/v1/gemini/generateContent`;
 
                     const response = await fetch(apiUrl, {
                         method: 'POST',
