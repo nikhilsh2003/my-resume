@@ -1,483 +1,335 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nikhil Sharma - Software Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
-            color: #0f172a; /* slate-900 */
-        }
-
-        .nav-link {
-            position: relative;
-            transition: color 0.3s;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #0ea5e9; /* sky-500 */
-            transition: width 0.3s;
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        .nav-link:hover, .nav-link.active {
-             color: #0ea5e9; /* sky-500 */
-        }
-
-        .section-card {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0; /* slate-200 */
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-        }
-        .section-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            border-color: #38bdf8; /* sky-400 */
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 400px;
-        }
-        
-        .social-badge {
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .social-badge:hover {
-            transform: scale(1.05) translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-        
-        /* Refined Timeline specific styles */
-        .timeline-wrapper {
-            position: relative;
-            padding-left: 2.5rem; /* Space for the line and dots */
-            border-left: 2px solid #e2e8f0; /* The vertical line */
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 0.5rem; /* Adjust vertical alignment of the dot */
-            left: -2.5rem; /* Position relative to the wrapper's padding */
-            transform: translateX(-50%); /* Center the dot on the line */
-            width: 1rem;
-            height: 1rem;
-            border-radius: 9999px;
-            border: 3px solid #0ea5e9; /* sky-500 */
-            background-color: #ffffff;
-            z-index: 1;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Nikhil Sharma — Backend Engineer building distributed systems, financial platforms, and AI infrastructure.">
+<meta name="theme-color" content="#f5f5f0">
+<meta property="og:title" content="Nikhil Sharma — Backend Engineer">
+<meta property="og:description" content="Distributed systems, financial infrastructure, AI infrastructure and security.">
+<title>Nikhil Sharma — Backend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f5f0;--surface:#fbfbf8;--ink:#141613;--muted:#646861;--line:#dfe1da;
+  --dark:#151713;--dark2:#1e211c;--accent:#315c45;--accent-soft:#e5eee8;
+  --max:1180px;--radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(var(--max),calc(100% - 44px));margin:auto}
+nav{position:sticky;top:0;z-index:20;background:rgba(245,245,240,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(223,225,218,.8)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.brand{font-weight:700;letter-spacing:-.03em}
+.links{display:flex;gap:28px;font-size:13px;color:var(--muted)}
+.links a:hover{color:var(--ink)}
+.btn{border:1px solid var(--ink);padding:10px 15px;border-radius:999px;font-size:13px;font-weight:600}
+.btn:hover{background:var(--ink);color:white}
+.hero{padding:92px 0 78px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:72px;align-items:center}
+.eyebrow,.mono,.role{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(50px,7vw,88px);line-height:.98;letter-spacing:-.065em;margin:16px 0 26px;max-width:900px}
+.hero-copy{font-size:18px;color:#454942;max-width:720px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.primary{background:var(--ink);color:white;border-color:var(--ink)}
+.primary:hover{background:#2a2d28}
+.profile-wrap{justify-self:end;width:230px}
+.profile{
+  width:230px;height:290px;object-fit:cover;object-position:center top;
+  border-radius:26px;display:block;border:1px solid var(--line);background:#e8e9e2;
+}
+.profile-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line)}
+.metric{padding:28px 22px 30px;border-right:1px solid var(--line)}
+.metric:first-child{padding-left:0}.metric:last-child{border-right:0}
+.metric strong{display:block;font-size:29px;letter-spacing:-.04em}
+.metric span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+section{padding:96px 0;border-bottom:1px solid var(--line)}
+.section-head{display:grid;grid-template-columns:300px 1fr;gap:70px;margin-bottom:48px}
+.section-head h2{font-size:40px;line-height:1.05;letter-spacing:-.045em;margin:0}
+.section-head p{margin:0;color:var(--muted);max-width:680px}
+.story{display:grid;grid-template-columns:280px 1fr;gap:70px;padding:38px 0;border-top:1px solid var(--line)}
+.story:last-child{border-bottom:1px solid var(--line)}
+.company{font-size:13px;color:var(--muted);margin-top:8px}
+.story h3{font-size:27px;letter-spacing:-.035em;margin:0 0 16px}
+.bullets{margin:0;padding-left:20px;color:#41453f}
+.bullets li{padding:7px 0 7px 4px}
+.result{display:inline-block;margin-top:22px;padding:9px 12px;border-radius:9px;background:var(--accent-soft);color:var(--accent);font-family:"DM Mono",monospace;font-size:11px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;color:var(--muted)}
+.case{background:var(--dark);color:#f3f5ee;border-radius:24px;padding:42px;margin-top:22px}
+.case:first-of-type{margin-top:0}
+.case h3{font-size:32px;letter-spacing:-.04em;margin:10px 0 12px}
+.case-intro{color:#c1c6bf;max-width:800px;margin:0}
+.case-bullets{margin:22px 0 0;padding-left:21px;color:#d8dcd5;max-width:850px}
+.case-bullets li{padding:6px 0}
+.casegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.casebox{border:1px solid #353a34;border-radius:14px;padding:20px}
+.casebox strong{font-size:28px;display:block;letter-spacing:-.04em}
+.casebox span{display:block;color:#aeb5ac;font-size:12px;margin-top:5px}
+.arch{margin-top:28px;border:1px solid #353a34;border-radius:14px;padding:18px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:"DM Mono",monospace;font-size:11px;color:#d8ddd5}
+.arch span{border:1px solid #464b44;border-radius:8px;padding:8px 10px}.arrow{border:0!important;color:#879087!important;padding:0!important}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
+.card h3{margin:0 0 8px;font-size:22px;letter-spacing:-.03em}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.card .mono{margin-bottom:12px}
+.card ul{margin:16px 0 0;padding-left:19px;color:#4b5049;font-size:14px}
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.skill{padding:25px 28px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.skill:nth-child(2n){border-right:0}.skill h3{margin:0 0 7px;font-size:16px}.skill p{margin:0;color:var(--muted);font-size:13px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.about h3{font-size:27px;letter-spacing:-.035em;margin:0 0 15px}
+.about p{color:var(--muted)}
+.achievements{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.achievement{border:1px solid var(--line);border-radius:13px;padding:16px}
+.achievement strong{display:block}.achievement span{font-size:12px;color:var(--muted)}
+.cta{padding:100px 0 110px}
+.cta-inner{background:var(--dark);color:white;border-radius:26px;padding:55px;display:flex;align-items:end;justify-content:space-between;gap:30px}
+.cta h2{font-size:clamp(38px,5vw,62px);line-height:1;letter-spacing:-.055em;margin:8px 0 0;max-width:680px}
+.cta p{color:#b9beb7;max-width:520px}
+.cta .btn{border-color:#dce2d9;color:white}
+.cta .btn:hover{background:white;color:var(--dark)}
+footer{padding:25px 0 40px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:20px}
+@media(max-width:900px){
+ .hero-grid{grid-template-columns:1fr;gap:35px}.profile-wrap{justify-self:start;display:flex;align-items:end;gap:15px}.profile{width:150px;height:185px}.profile-note{max-width:240px}
+ .metrics{grid-template-columns:repeat(2,1fr)}.metric:nth-child(2n){border-right:0}.metric{border-bottom:1px solid var(--line)}
+ .section-head,.story,.about{grid-template-columns:1fr;gap:20px}.grid,.casegrid{grid-template-columns:1fr}
+ .cta-inner{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:620px){
+ .wrap{width:min(var(--max),calc(100% - 28px))}.links{display:none}.nav{height:64px}.hero{padding:68px 0 58px}
+ h1{font-size:clamp(45px,15vw,68px)}.hero-copy{font-size:16px}.metrics{grid-template-columns:1fr 1fr}.metric{padding:20px 12px}.metric:first-child{padding-left:0}.metric strong{font-size:23px}
+ section{padding:70px 0}.section-head h2{font-size:34px}.story{padding:30px 0}.story h3{font-size:24px}
+ .case{padding:28px 20px;border-radius:18px}.case h3{font-size:27px}.skills{grid-template-columns:1fr}.skill{border-right:0}
+ .cta{padding:70px 0 80px}.cta-inner{padding:32px 24px;border-radius:20px}.cta h2{font-size:42px}
+ footer{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
-<body class="antialiased">
+<body>
+<nav>
+  <div class="wrap nav">
+    <a class="brand" href="#">Nikhil Sharma</a>
+    <div class="links">
+      <a href="#work">Work</a><a href="#case-studies">Case Studies</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#about">About</a>
+    </div>
+    <a class="btn" href="mailto:nikhilsharmash20@gmail.com">Contact</a>
+  </div>
+</nav>
 
-    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Nikhil Sharma</h1>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#summary" class="nav-link font-medium pb-1 text-slate-600">Home</a>
-                <a href="#experience" class="nav-link font-medium pb-1 text-slate-600">Experience</a>
-                <a href="#skills" class="nav-link font-medium pb-1 text-slate-600">Skills</a>
-                <a href="#projects" class="nav-link font-medium pb-1 text-slate-600">Projects</a>
-                <a href="#achievements" class="nav-link font-medium pb-1 text-slate-600">Achievements</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-slate-700 hover:bg-slate-200 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200">
-            <a href="#summary" class="block py-3 px-6 text-sm hover:bg-slate-100">Home</a>
-            <a href="#experience" class="block py-3 px-6 text-sm hover:bg-slate-100">Experience</a>
-            <a href="#skills" class="block py-3 px-6 text-sm hover:bg-slate-100">Skills</a>
-            <a href="#projects" class="block py-3 px-6 text-sm hover:bg-slate-100">Projects</a>
-            <a href="#achievements" class="block py-3 px-6 text-sm hover:bg-slate-100">Achievements</a>
-        </div>
-    </header>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Backend Engineer · Distributed Systems · AI Infrastructure</div>
+      <h1>Building backend systems that hold up under real-world constraints.</h1>
+      <p class="hero-copy">I build distributed systems, financial data platforms, and AI infrastructure at Deutsche Bank — with a focus on reliability, performance, security, and reducing operational complexity.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#work">Explore my work</a>
+        <a class="btn" href="https://github.com/nikhilsh2003" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a class="btn" href="mailto:nikhilsharmash20@gmail.com">Email me</a>
+      </div>
+    </div>
+    <div class="profile-wrap">
+      <img class="profile" src="https://raw.githubusercontent.com/nikhilsh2003/my-resume/main/profile_pic.jpg" alt="Nikhil Sharma profile photo">
+      <div class="profile-note">Software Engineer II<br>Backend Platform & AI Security</div>
+    </div>
+  </div>
+</header>
 
-    <main class="container mx-auto p-4 md:p-8">
-        
-        <section id="summary" class="text-center py-16 md:py-24">
-            <img src="https://github.com/nikhilsh2003/my-resume/blob/main/profile_pic.jpg?raw=true" alt="Nikhil Sharma" class="w-36 h-36 md:w-44 md:h-44 rounded-full mx-auto mb-6 object-cover shadow-xl border-4 border-white" onerror="this.onerror=null;this.src='https://placehold.co/176x176/e2e8f0/64748b?text=NS';"/>
-            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3 tracking-tighter">Software Engineer</h2>
-            <p class="text-lg text-sky-600 font-medium mb-6">Engineering High-Impact, Scalable Software Solutions</p>
-            <p class="max-w-3xl mx-auto text-slate-600 leading-relaxed">
-                Impact-driven engineer with expertise in migrating on-prem pipelines to GCP and building resilient, high-traffic APIs. Proven ability to reduce infrastructure costs, boost release frequency, and significantly improve system performance and reliability in the financial tech sector.
-            </p>
-            <div class="mt-8 flex justify-center items-center flex-wrap gap-3">
-                <a href="mailto:nikhilsharmash20@gmail.com" class="social-badge">
-                     <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Me"/>
-                </a>
-                <a href="https://linkedin.com/in/nikhilsh2003" target="_blank" class="social-badge">
-                    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile"/>
-                </a>
-                <a href="https://github.com/nikhilsh2003" target="_blank" class="social-badge">
-                    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile"/>
-                </a>
-            </div>
-             <div class="mt-10">
-                <button id="generate-questions-btn" class="px-6 py-3 bg-sky-500 text-white font-semibold rounded-full shadow-md hover:bg-sky-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center mx-auto">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Generate Interview Questions
-                    <svg id="loading-spinner" class="animate-spin ml-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                </button>
-                <div id="interview-questions-output" class="mt-6 p-6 bg-slate-100 rounded-lg text-left max-w-3xl mx-auto hidden transition-all duration-500 border border-slate-200">
-                    <h3 class="font-bold text-lg text-slate-800 mb-3">Potential Interview Questions:</h3>
-                    <div id="questions-list" class="text-slate-700 leading-relaxed space-y-2"></div>
-                </div>
-            </div>
-        </section>
+<div class="wrap metrics">
+  <div class="metric"><strong>$100B</strong><span>RIBB transaction value</span></div>
+  <div class="metric"><strong>10M+</strong><span>rows processed / day</span></div>
+  <div class="metric"><strong>35%</strong><span>API latency reduction</span></div>
+  <div class="metric"><strong>90% → &lt;5%</strong><span>SLO breach rate</span></div>
+  <div class="metric"><strong>100+</strong><span>MCP tool integrations</span></div>
+</div>
 
-        <section id="experience" class="py-16 md:py-24">
-            <h2 class="text-3xl font-bold text-center mb-16 text-slate-900 tracking-tight">Professional Experience</h2>
-            <div class="max-w-3xl mx-auto timeline-wrapper">
-                <div class="space-y-12">
-                    <div class="relative timeline-item">
-                        <div class="p-6 section-card">
-                            <h3 class="font-bold text-lg text-slate-900">Software Developer</h3>
-                            <p class="text-slate-600 mb-4 font-medium">Deutsche Bank <span class="text-slate-400 font-normal">| Jul 2023 – Present</span></p>
-                            <ul class="list-disc list-inside text-sm text-slate-500 space-y-2">
-                                <li>Migrated on-prem pipelines to <strong class="text-slate-600">GCP</strong>, reducing infra usage by <strong class="text-slate-600">80%</strong> and enabling 2+ releases per month.</li>
-                                <li>Built a schema migration framework for financial workflows (10M+ rows/day) using Kafka, cutting migration cycles from days to hours.</li>
-                                <li>Re-architected high-traffic Spring Boot APIs, achieving <strong class="text-slate-600">35% faster responses</strong> and reducing SLO breaches from 90% to <strong class="text-slate-600">&lt;5%</strong>.</li>
-                                <li>Designed a CQRS-based engine for Avro transformations, cutting Spark runtimes by <strong class="text-slate-600">20%</strong>.</li>
-                                <li>Created metadata control-plane REST APIs with Airflow, reducing manual operations by <strong class="text-slate-600">70%</strong>.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="relative timeline-item">
-                        <div class="p-6 section-card">
-                            <h3 class="font-bold text-lg text-slate-900">Software Engineering Intern</h3>
-                            <p class="text-slate-600 mb-4 font-medium">Mastercard <span class="text-slate-400 font-normal">| May 2022 – Jul 2022</span></p>
-                            <ul class="list-disc list-inside text-sm text-slate-500 space-y-2">
-                                <li>Built a configurable data quality validator in <strong class="text-slate-600">ASP.NET Core</strong>, improving data quality by <strong class="text-slate-600">70%</strong>.</li>
-                                <li>Developed a dynamic UI with Razor Pages & AJAX, enhancing data monitoring by <strong class="text-slate-600">80%</strong> via a quality dashboard.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <p>The strongest engineering work is not a list of technologies. It is a set of decisions made under constraints — and measurable outcomes after the system ships.</p>
+    </div>
 
-        <section id="skills" class="py-16 md:py-24 bg-white rounded-2xl shadow-lg">
-            <div class="text-center mb-12 px-4">
-                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Technical Skills</h2>
-                <p class="text-slate-600 mt-2 max-w-2xl mx-auto">A visual overview of core competencies and a detailed list of technologies I use.</p>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6">
-                <div>
-                    <div class="chart-container">
-                        <canvas id="skillsRadarChart"></canvas>
-                    </div>
-                </div>
-                <div>
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="font-bold text-slate-800 mb-3 text-lg">Languages</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java"/>
-                                <img src="https://img.shields.io/badge/Scala-DC322F?style=for-the-badge&logo=scala&logoColor=white" alt="Scala"/>
-                                <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
-                                <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++"/>
-                                <img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white" alt="SQL"/>
-                                <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 mb-3 text-lg">Cloud & DevOps</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" alt="GCP"/>
-                                <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
-                                <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes"/>
-                                <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform"/>
-                                <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions"/>
-                                <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white" alt="Jenkins"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 mb-3 text-lg">Backend & Data</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot"/>
-                                <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js"/>
-                                <img src="https://img.shields.io/badge/Apache_Spark-E25A1C?style=for-the-badge&logo=apache-spark&logoColor=white" alt="Spark"/>
-                                <img src="https://img.shields.io/badge/Apache_Hadoop-66CCFF?style=for-the-badge&logo=apache-hadoop&logoColor=black" alt="Hadoop"/>
-                                <img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="MS SQL Server"/>
-                                <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
-                                <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="story">
+      <div><div class="role">Software Engineer II</div><div class="company">Deutsche Bank · Nov 2025 — Present</div></div>
+      <div>
+        <h3>Enterprise AI infrastructure & security</h3>
+        <ul class="bullets">
+          <li>Built AI security middleware used across 5+ internal applications, covering PII anonymization, prompt filtering and configurable guardrails.</li>
+          <li>Reduced AI inference latency from ~1s to under 200ms through Redis caching and query optimization, increasing throughput by ~5×.</li>
+          <li>Architected an MCP API Gateway with Microsoft Entra ID and RBAC, supporting 100+ internal tool integrations.</li>
+          <li>Built database/RAG workflows over heterogeneous enterprise sources and a code-debugging MCP that traces production errors to root cause and generates reviewed PRs with fix rationale.</li>
+          <li>Drove AI governance work across 3+ platform/security teams and mentored 2 junior engineers.</li>
+        </ul>
+        <div class="tags"><span class="tag">MCP</span><span class="tag">RAG</span><span class="tag">Redis</span><span class="tag">Entra ID</span><span class="tag">RBAC</span><span class="tag">AI Security</span></div>
+      </div>
+    </div>
 
-        <section id="projects" class="py-16 md:py-24">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 tracking-tight">Personal Projects</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="section-card p-6 flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">RiskIQ Platform</h3>
-                    <p class="text-slate-600 mt-2 flex-grow">Analytics dashboard for AI diagnostics and investment flagging. Integrated real-time R-based logging and GCP pipelines. Reduced AI error triage time by 65% for 40+ analysts.</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">GCP</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Analytics</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">R</span>
-                    </div>
-                </div>
-                <div class="section-card p-6 flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">MedConnect AI</h3>
-                    <p class="text-slate-600 mt-2 flex-grow">A conversational AI platform for healthcare, providing a chatbot, patient scheduling, and geofencing features. Successfully reduced missed appointments by 50%.</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Conversational AI</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Geofencing</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Scheduling</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="story">
+      <div><div class="role">Software Engineer</div><div class="company">Deutsche Bank · Jul 2023 — Nov 2025</div></div>
+      <div>
+        <h3>Distributed systems & financial data platforms</h3>
+        <ul class="bullets">
+          <li>Designed a zero-downtime schema migration framework using dual-write, shadow-read orchestration and Kafka replay validation for workloads handling 10M+ rows/day.</li>
+          <li>Reduced high-traffic Spring Boot API latency by 35% through HikariCP tuning, G1GC tuning and SQL execution-plan optimization; cut SLO breaches from ~90% to under 5%.</li>
+          <li>Modernized financial data workloads on GCP using BigQuery, Dataproc, Cloud Composer and Terraform, reducing infrastructure overhead by 80%.</li>
+          <li>Automated Airflow retry handling, reducing manual pipeline operations by 70%.</li>
+          <li>Built secure microservices with OAuth2/JWT and fine-grained authorization for 100+ analysts.</li>
+        </ul>
+        <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Kafka</span><span class="tag">GCP</span><span class="tag">Airflow</span><span class="tag">Terraform</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section id="achievements" class="py-16 md:py-24">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 tracking-tight">Education & Achievements</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div class="lg:col-span-2 section-card p-6 flex flex-col justify-center">
-                    <h3 class="text-xl font-bold text-slate-900">Education</h3>
-                    <p class="text-lg font-semibold text-slate-700 mt-2">National Institute of Technology, Warangal</p>
-                    <p class="text-slate-600">B.Tech in Electronics and Communication Engineering</p>
-                    <p class="text-slate-500 mt-1">Graduated May 2023 | CGPA: 7.7/10</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-900 mt-8">Key Achievements</h3>
-                    <ul class="list-disc list-inside text-slate-600 mt-2 space-y-1">
-                        <li>Global Rank 1 - GFG Interview Series</li>
-                        <li>Global Rank 1748 - Google Kickstart 2021</li>
-                        <li>Specialist (1418) - Codeforces</li>
-                        <li>Knight Badge (1904) - LeetCode</li>
-                    </ul>
-                </div>
-                <div class="lg:col-span-3 section-card p-6">
-                    <h3 class="text-xl font-bold text-center text-slate-900 mb-4">Competitive Programming Ratings</h3>
-                    <div class="chart-container" style="height: 300px; max-height: 350px;">
-                        <canvas id="ratingsBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+<section id="case-studies">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Engineering case studies</h2>
+      <p>Three problems that show how I approach data correctness, production debugging, and AI systems over real enterprise infrastructure.</p>
+    </div>
 
-    <footer class="bg-slate-800 text-slate-300 py-8">
-        <div class="container mx-auto text-center px-4">
-            <p>&copy; 2025 Nikhil Sharma. All rights reserved.</p>
-            <p class="text-sm mt-2 text-slate-400">Designed with passion. Built with Tailwind CSS & Chart.js.</p>
-        </div>
-    </footer>
+    <article class="case">
+      <div class="mono">01 · FINANCIAL DATA ENGINEERING</div>
+      <h3>RIBB reconciliation</h3>
+      <p class="case-intro">Risk in Banking Book reconciliation across approximately $100B in transaction value. The core challenge was reconciling information that lived across systems with different purposes and semantics.</p>
+      <ul class="case-bullets">
+        <li>Used metadata/configuration tables describing how ~100 feed groups were expected to run.</li>
+        <li>Correlated run-instance and transaction tables containing execution status and results.</li>
+        <li>Compared those results against the final report in Impala and the business-language report in SQL Server used by the risk calculation engine.</li>
+        <li>Reduced manual adjustment effort by 60%, measured using the average amount of adjustments required.</li>
+        <li>One adjustment type was intentionally outside the handled scope and represented 40% of transactions — an important limitation of the result.</li>
+      </ul>
+      <div class="casegrid">
+        <div class="casebox"><strong>$100B</strong><span>transaction value covered by the reconciliation workflow</span></div>
+        <div class="casebox"><strong>60%</strong><span>reduction in manual adjustment effort</span></div>
+      </div>
+      <div class="arch">
+        <span>Metadata DB</span><span class="arrow">→</span><span>Run / Transaction Data</span><span class="arrow">→</span><span>Impala Report</span><span class="arrow">→</span><span>SQL Server Report</span><span class="arrow">→</span><span>Reconciliation</span>
+      </div>
+    </article>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+    <article class="case">
+      <div class="mono">02 · DEVELOPER INFRASTRUCTURE</div>
+      <h3>Production debugging MCP</h3>
+      <p class="case-intro">An AI-assisted workflow used by SL3 production support to turn an error report into an evidence-backed proposed code change while keeping human review in the loop.</p>
+      <ul class="case-bullets">
+        <li>Collects production traces and relevant diagnostic context.</li>
+        <li>Analyzes repository code and traces the failure toward a root cause.</li>
+        <li>Generates candidate fixes and explains why the preferred fix is stronger than alternatives.</li>
+        <li>Creates a pull request containing the proposed change and detailed root-cause/fix justification.</li>
+        <li>Adopted by SL3 support, significantly reducing RCA and SLA-resolution timings without autonomous production deployment.</li>
+      </ul>
+      <div class="arch"><span>Production Error</span><span class="arrow">→</span><span>Context + Traces</span><span class="arrow">→</span><span>Code Analysis</span><span class="arrow">→</span><span>Root Cause</span><span class="arrow">→</span><span>Proposed Fix</span><span class="arrow">→</span><span>PR + Human Review</span></div>
+    </article>
 
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            document.querySelectorAll('#mobile-menu a, .nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (link.closest('#mobile-menu')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
+    <article class="case">
+      <div class="mono">03 · ENTERPRISE AI</div>
+      <h3>Database MCP across heterogeneous sources</h3>
+      <p class="case-intro">The difficult part was not connecting an LLM to a database. It was making enterprise data understandable enough for an LLM to choose the right context and generate useful queries.</p>
+      <ul class="case-bullets">
+        <li>Exposed internal metadata and configuration information through MCP.</li>
+        <li>Connected run-instance and transaction-status data with report outputs from Impala and SQL Server.</li>
+        <li>Used RAG/context retrieval to ground LLM-driven query generation in the meaning and role of each source.</li>
+        <li>Designed the workflow around heterogeneous schemas, business terminology and the need for controlled access to internal financial data.</li>
+      </ul>
+      <div class="arch"><span>User Intent</span><span class="arrow">→</span><span>Context Retrieval</span><span class="arrow">→</span><span>Source Selection</span><span class="arrow">→</span><span>Query Generation</span><span class="arrow">→</span><span>Enterprise Data</span></div>
+    </article>
+  </div>
+</section>
 
-            const radarCtx = document.getElementById('skillsRadarChart').getContext('2d');
-            new Chart(radarCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Backend Dev', 'Data Engineering', 'Cloud & DevOps', 'Databases', 'Problem Solving'],
-                    datasets: [{
-                        label: 'Proficiency',
-                        data: [90, 85, 88, 80, 95],
-                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
-                        borderColor: 'rgba(14, 165, 233, 1)',
-                        pointBackgroundColor: 'rgba(14, 165, 233, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(14, 165, 233, 1)'
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: {
-                                font: { size: 13, weight: '600' },
-                                color: '#334155'
-                            },
-                            ticks: {
-                                backdropColor: 'transparent',
-                                color: '#64748b',
-                                stepSize: 25
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 100
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <p>Side projects where I deliberately explore systems problems outside the constraints of day-to-day enterprise work.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="mono">SYSTEMS · C++ / JAVA</div>
+        <h3>QuantCore</h3>
+        <p>A deterministic trading-system project built around a low-latency C++ matching engine and a Java/Spring backend layer.</p>
+        <ul>
+          <li>Red-black trees and lock-free queues in the matching engine.</li>
+          <li>Sub-500 µs matching latency in synthetic workloads.</li>
+          <li>10K+ TPS sustained synthetic load.</li>
+          <li>Kafka routing, Redis, OAuth2/JWT, Kubernetes and Terraform.</li>
+        </ul>
+        <div class="tags"><span class="tag">C++20</span><span class="tag">Java 17</span><span class="tag">Kafka</span><span class="tag">Redis</span><span class="tag">Kubernetes</span></div>
+      </article>
+      <article class="card">
+        <div class="mono">OPEN SOURCE · ENGINEERING</div>
+        <h3>Open-source contributions</h3>
+        <p>I use open-source work to sharpen engineering judgment around production code, API contracts, testing and maintainability.</p>
+        <ul>
+          <li>Focused on backend, data and infrastructure-oriented repositories.</li>
+          <li>Prefer changes where correctness and maintainability matter more than surface-level feature work.</li>
+        </ul>
+        <div class="hero-actions" style="margin-top:20px"><a class="btn" href="https://github.com/nikhilsh2003" target="_blank" rel="noreferrer">View GitHub ↗</a></div>
+      </article>
+    </div>
+  </div>
+</section>
 
-            const barCtx = document.getElementById('ratingsBarChart').getContext('2d');
-            new Chart(barCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['LeetCode', 'Codeforces', 'CodeChef'],
-                    datasets: [{
-                        label: 'Rating',
-                        data: [1904, 1418, 1808],
-                        backgroundColor: [
-                            'rgba(245, 158, 11, 0.7)', // amber-500
-                            'rgba(59, 130, 246, 0.7)', // blue-500
-                            'rgba(139, 92, 246, 0.7)'  // violet-500
-                        ],
-                        borderColor: [
-                           'rgba(245, 158, 11, 1)',
-                           'rgba(59, 130, 246, 1)',
-                           'rgba(139, 92, 246, 1)'
-                        ],
-                        borderWidth: 1,
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: {
-                        x: { beginAtZero: true, grid: { display: false } },
-                        y: { grid: { display: false } }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                    }
-                }
-            });
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Engineering toolkit</h2>
+      <p>Grouped by the kind of engineering problem the tools help solve — not by arbitrary self-assessed proficiency percentages.</p>
+    </div>
+    <div class="skills">
+      <div class="skill"><h3>Backend</h3><p>Java 17 · Spring Boot 3 · REST APIs · Microservices · Hibernate/JPA · gRPC · API design</p></div>
+      <div class="skill"><h3>Distributed systems</h3><p>Kafka · Redis · Event-driven architecture · Distributed transactions · Idempotency · Async processing</p></div>
+      <div class="skill"><h3>AI infrastructure</h3><p>MCP · RAG · LLM tool-calling · AI governance · Prompt filtering · AI security middleware</p></div>
+      <div class="skill"><h3>Cloud & platform</h3><p>GCP · Docker · Kubernetes · Terraform · GitHub Actions · CI/CD</p></div>
+      <div class="skill"><h3>Data systems</h3><p>SQL Server · BigQuery · Impala · MongoDB · TimescaleDB · Spark · Airflow · Cloud Composer · Dataproc</p></div>
+      <div class="skill"><h3>Security & architecture</h3><p>OAuth2 · JWT · RBAC · Entra ID · SSO · SAML · OIDC · PII anonymization · LLM guardrails · HLD/LLD</p></div>
+    </div>
+  </div>
+</section>
 
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('section');
-            const header = document.getElementById('header');
-            
-            window.addEventListener('scroll', () => {
-                let current = 'summary';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - header.offsetHeight - 20) {
-                        current = section.getAttribute('id');
-                    }
-                });
+<section id="about">
+  <div class="wrap about">
+    <div>
+      <div class="eyebrow">How I think about engineering</div>
+      <h3>Make the system understandable before making it clever.</h3>
+      <p>I care about what happens when traffic rises, dependencies fail, data changes shape, or an operational workflow breaks at 2 AM. That usually means starting with the data flow and failure modes, then choosing the simplest architecture that makes correctness and recovery explicit.</p>
+      <p>I am particularly interested in distributed systems, backend performance, financial data, developer infrastructure, and the boundary between AI reasoning and production software.</p>
+    </div>
+    <div>
+      <div class="eyebrow">Competitive programming & academics</div>
+      <div class="achievements" style="margin-top:20px">
+        <div class="achievement"><strong>LeetCode 1904</strong><span>Top competitive programming milestone</span></div>
+        <div class="achievement"><strong>Codeforces 1418</strong><span>Specialist</span></div>
+        <div class="achievement"><strong>Global Rank 1</strong><span>GeeksforGeeks Interview Series</span></div>
+        <div class="achievement"><strong>Rank 1748</strong><span>Google Kick Start</span></div>
+        <div class="achievement"><strong>800+</strong><span>DSA problems solved</span></div>
+        <div class="achievement"><strong>NIT Warangal</strong><span>B.Tech, Electronics & Communication</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').includes(current)) {
-                        link.classList.add('active');
-                    }
-                });
-            });
+<div class="wrap cta">
+  <div class="cta-inner">
+    <div>
+      <div class="eyebrow" style="color:#aeb5ac">Open to difficult backend problems</div>
+      <h2>Have a system that needs to scale, recover, or become simpler?</h2>
+      <p>I'm interested in backend, distributed systems, AI infrastructure, and platform engineering roles where the technical problems are genuinely hard.</p>
+    </div>
+    <a class="btn" href="mailto:nikhilsharmash20@gmail.com">Let's talk ↗</a>
+  </div>
+</div>
 
-            const generateQuestionsBtn = document.getElementById('generate-questions-btn');
-            const loadingSpinner = document.getElementById('loading-spinner');
-            const interviewQuestionsOutput = document.getElementById('interview-questions-output');
-            const questionsListDiv = document.getElementById('questions-list');
-
-            generateQuestionsBtn.addEventListener('click', async () => {
-                loadingSpinner.classList.remove('hidden');
-                generateQuestionsBtn.disabled = true;
-                questionsListDiv.innerHTML = '';
-                interviewQuestionsOutput.classList.add('hidden');
-                
-                const fetchWithBackoff = async (url, options, retries = 3, delay = 1000) => {
-                    try {
-                        const response = await fetch(url, options);
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                        return response.json();
-                    } catch (error) {
-                        if (retries > 0) {
-                            await new Promise(res => setTimeout(res, delay));
-                            return fetchWithBackoff(url, options, retries - 1, delay * 2);
-                        }
-                        throw error;
-                    }
-                };
-
-                try {
-                    const summaryText = document.querySelector('#summary p.leading-relaxed').textContent;
-                    const experienceItems = Array.from(document.querySelectorAll('#experience .section-card ul li')).map(li => li.textContent.trim()).join('\n- ');
-                    
-                    const prompt = `Based on the following resume for a Software Engineer, generate 4 relevant interview questions a recruiter might ask. The questions should cover technical expertise in areas like GCP, Spring Boot, and system design, as well as behavioral aspects related to the accomplishments mentioned.
-
-**Resume Summary:**
-${summaryText}
-
-**Key Experience:**
-- ${experienceItems}
-
-Please format the questions as a numbered list.`;
-
-                    const payload = {
-                        contents: [{ parts: [{ text: prompt }] }],
-                    };
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                    const result = await fetchWithBackoff(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        const questionsHtml = text.split('\n').filter(line => line.trim() !== '').map(line => `<li>${line.replace(/^\d+\.\s*/, '')}</li>`).join('');
-                        questionsListDiv.innerHTML = `<ul class="list-disc list-inside">${questionsHtml}</ul>`;
-                        interviewQuestionsOutput.classList.remove('hidden');
-                    } else {
-                        throw new Error("Invalid response structure from API.");
-                    }
-
-                } catch (error) {
-                    console.error("Error generating interview questions:", error);
-                    questionsListDiv.innerHTML = '<p class="text-red-500">An error occurred while generating questions. Please try again later.</p>';
-                    interviewQuestionsOutput.classList.remove('hidden');
-                } finally {
-                    loadingSpinner.classList.add('hidden');
-                    generateQuestionsBtn.disabled = false;
-                }
-            });
-        });
-    </script>
+<div class="wrap">
+<footer><span>© 2026 Nikhil Sharma</span><span>Backend · Distributed Systems · AI Infrastructure</span></footer>
+</div>
 </body>
 </html>
-
